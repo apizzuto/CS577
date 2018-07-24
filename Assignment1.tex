@@ -1,0 +1,151 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{titlesec}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage[margin=1in]{geometry}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{tikz-3dplot}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{varioref}
+\usepackage{fancyref}
+\usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
+\usepackage{framed}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[]{algorithm2e}
+
+\usepackage{listings}
+\usepackage{color}
+
+\titleformat{\subsection}[runin]
+  {\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}[runin]
+  {\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Script R%
+\usepackage{calligra}
+\usepackage{qtree}
+\DeclareMathAlphabet{\mathcalligra}{T1}{calligra}{m}{n}
+\DeclareFontShape{T1}{calligra}{m}{n}{<->s*[2.2]callig15}{}
+\newcommand{\scripty}[1]{\ensuremath{\mathcalligra{#1}}}
+\newcommand{\sr}{\scripty{r}}
+\newcommand{\vsr}{\vec{\sr\,}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Macros%
+\newcommand{\dint}[2]{\int\limits_{#1}^{#2}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\author{Alex Pizzuto}
+\title{CS 577 Homework 1}
+\begin{document}
+\date{}
+\maketitle
+\hrule
+
+\section*{Question One}
+We seek to arrange the following functions in descending order of growth rate: $n^2$, $2^{4\log n}$, $n^{2\log n}$, $n(\log n)^5$, $3^n$. First, we cite our final answer, with analysis to follow. In the large $n$ regime, 
+\begin{equation*}
+	3^n \; > n^{2\log n} \; > 2^{4\log n} \; > n^2 \; > n(\log n)^5
+\end{equation*}
+We will prove this by showing that each function in this chain is bounded by below by the following function. First, we show that $3^n \; > n^{2\log n}$. We do this by taking the logarithm of both sides.
+\begin{equation*}
+	\log 3^n = n \log 3 \;\; \mbox{and} \;\; \log \Big( n^{2\log n}\Big) = 2\log n\log n
+\end{equation*}
+The function on the left is clearly polynomial while the one on the right is logarithmic, thus $3^n > n^{2\log n}$. Next, to show $n^{2\log n} \; > 2^{4\log n}$, 
+\begin{align*}
+	2^{4\log n} &= 2^{\log n}2^{\log n}2^{\log n}2^{\log n} \\
+	&= n^{\log 2} n^{\log 2} n^{\log 2} n^{\log 2} \\
+	&= n^{4 \log 2}
+\end{align*}
+which is polynomial, and clearly less than $n^{2\log n}$ in the large $n$ regime as $n^{2\log n}$ is exponential. Now, proving that $2^{4\log n} \; > n^2$, we know that $2^{4\log n} = n^{4 \log 2}$. Then, clearly, $2^{4\log n} \; > n^2$ as $n^{4 \log 2} > n^2$ (assuming that we are working in base 10), because $\log 2 < 0.68$ thus $4 \log 2 > 2$, so the exponent of $n^{4 \log 2}$ is larger than that of $n^2$. Finally, we show that $n^2 \; > n(\log n)^5$. We do this by taking the ratio of the two functions and prove that $\frac{n^2}{n(\log n)^5} > 1$.
+\begin{equation*}
+	\frac{n^2}{n(\log n)^5} = \frac{n}{(\log n)^5}
+\end{equation*}
+The numerator is a polynomial, and the denominator is logarithmic, thus in the large $n$ regime, the fraction is greater than 1, and $n^2 \; > n(\log n)^5$. As we have proven that each member is greater than its successor in this inequality chain, we have proven we have sorted in the correct order. 
+
+\section*{Question Two}
+Now, we derive the upper bounds for the following worst-case running times of certain algorithms: 
+\subsubsection*{a}
+\begin{align*}
+	T(n) &= 2 T(n/2) + c \\
+	&= 2(2T(n/4) + c) + c \\
+	&= 4T(n/4) + (1+2)c \\
+	&= 4(2T(n/8) + c) + (1+2)c \\
+	&= 8T(n/8) + (1+2+4)c \\
+	&\vdots \\
+	&= 2^k T(n/2^k) + c\sum_{i=0}^{k-1}2^i \qquad \mbox{where} \quad \frac{n}{2^k} = 1\\
+	&= n T(1) + c (2^{k}-1) \\
+	&= nT(1) + c(n-1) \\
+	&\Rightarrow T(n) = \mathcal{O}(n)
+\end{align*}
+
+\subsubsection*{b}
+\begin{align*}
+	T(n) &= 8 T(n/2) + c \\
+	&= 8(8T(n/4) + c) + c \\
+	&= 8^2T(n/2^2) + (1 + 8)c \\
+	&= 8^2 (8T(n/2^3) + c) + (1+8)c \\
+	&= 8^3 T(n/2^3) + (1 + 8 + 8^2)c \\
+	&\vdots \\
+	&= 8^kT(n/2^k) + c\sum_{i=0}^{k-1}8^i \qquad \mbox{where} \quad \frac{n}{2^k} = 1 \\
+	&< n^3 T(1) + c\cdot 8^k = n^3 (T(1) + c) \\
+	&\Rightarrow T(n) = \mathcal{O}(n^3)
+\end{align*}
+
+\section*{Question Three (5.1)}
+Our goal is to find the median of a database of size $2n$ that is broken into 2 sorted databases each of size $n$, with as few queries as possible (we work in the idealized situation where the database sizes are powers of 2, but a similar analysis would hold if we were to rigorously include floors and ceilings). First, some definitions. We call one database $X$, and the other $Y$ (then $X(i)$ is the $i^{th}$ smallest element in $X$).
+
+In order to accomplish this, we employ a divide and conquer approach. First, perform a query of $X(n/2)$ and $Y(n/2)$, and call the results $x$ and $y$ respectively. Then, if $x<y$, then the first half of database $X$ is smaller than $X(k)$ (as $X$ is sorted), and it is smaller than the first half of database $Y$ (as $x<y$ and $Y$ is sorted). Thus, at least half of the combined database (the second half of both databases) is larger than the first half of $X$, thus $x$ is less than the median, and we can discard the first half of $X$. Similarly, $y$ is greater than the first half of $Y$ as well as the first half of $X$, so it is greater than the median, so we can discard the second half of $Y$. As we have eliminated the same number of elements less than the median as we have greater than the median, the median of the new combined database is still the median of the new database, so we then proceed recursively. Thus, we have the following function, median(n, a, b, c, d), where we would call at first median(n, 1, n, 1, n) (assuming the not so conventional indexing beginning at 1):
+
+\begin{algorithm}[h]
+	median(n, a, b, c, d) \{ 
+	\BlankLine
+	\If{n=1}{
+	return min($X(n)$, $Y(n)$)}
+	k = n/2\;
+	\eIf{$X((a+b)/2) < Y((c+d)/2)$} {
+	return median(k, (a+b)/2, b, c, (c+d)/2)\;}{
+	return median(k, a, (a+b)/2, (c+d)/2, d)\;} \}
+	\caption{Algorithm to find Median of 2 sorted databases}
+\end{algorithm}
+where a, b, c, d refer to the starting and ending indices of the databases, ie looking at elements of $X$ from a to b and elements of $Y$ from c to d. We are now traversing the databases in much the same way that you would a binary tree, and it is clear by the fact that we are dividing the databases size by 2 in each recursive call that we will only have to perform $\mathcal{O}(\log n)$ queries. As a brief derivation of this, we note that we can write our running time as
+\begin{align*}
+	T(n) &= T(n/2) + 2 \\
+	&= (T(n/4) + 2) + 2 \\
+	&\vdots \\
+	&= T(n/2^k) + 2k \\
+	&= T(1) + 2\log_2 n \\
+	&\Rightarrow \mathcal{O}(\log n)
+\end{align*}
+
+
+\end{document}

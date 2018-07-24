@@ -1,0 +1,84 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{titlesec}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage[margin=1in]{geometry}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{tikz}
+\graphicspath{{./Assignment7Graphs/}}
+\usetikzlibrary{calc}
+\usepackage{tikz-3dplot}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{varioref}
+\usepackage{fancyref}
+\usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
+\usepackage{framed}
+\usepackage{subfig}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[]{algorithm2e}
+
+\usepackage{listings}
+\usepackage{color}
+
+\titleformat{\subsection}[runin]
+  {\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}[runin]
+  {\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Script R%
+\usepackage{calligra}
+\usepackage{qtree}
+\DeclareMathAlphabet{\mathcalligra}{T1}{calligra}{m}{n}
+\DeclareFontShape{T1}{calligra}{m}{n}{<->s*[2.2]callig15}{}
+\newcommand{\scripty}[1]{\ensuremath{\mathcalligra{#1}}}
+\newcommand{\sr}{\scripty{r}}
+\newcommand{\vsr}{\vec{\sr\,}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Macros%
+\newcommand{\dint}[2]{\int\limits_{#1}^{#2}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\author{Alex Pizzuto}
+\title{CS 577 Homework 8}
+\begin{document}
+\date{}
+\maketitle
+\hrule
+
+\section*{Question One: 8.5}
+We seek to prove that the Hitting Set problem is NP-Complete. More specifically, our problem states that, given a set, $A = {a_1, a_2, \ldots, a_n}$, a collection of subsets, $B_1, B_2, \ldots, B_m$, and a number $k$, is there a hitting set, $H$, so that $|H| \leq k$?
+
+First, we will verify that the Hitting Set problem is in NP. Given a proposed set, $H$, in an instance of the problem, we can in polynomial time check if there are no more than $k$ elements in $H$ as well as check that each $B_i$ has at least one element that is also in $H$, therefore it is in NP. 
+
+Now, we must pick another problem, $Y$, that is known to be NP-Complete and show that $Y \leq _p \mbox{Hitting Set}$. We choose the Vertex Cover Problem. Assume we are given a graph, $G = (V, E)$. We call our set $A$ for the Hitting Set Problem the set of all vertices in $G$, so $A=V$. Then, we determine our subsets, $B_i$ as follows. For every edge $e = (u,v)$ in $E$, we create a new $B_i$ that just contains $u$ and $v$. With this construction, then there is  a hitting set of size $k$ or less if and only if there exists a vertex cover of size $k$ or less. To prove this, first assume we have found a vertex cover $D$ of $G$ of size $k$ or less. Then, for each edge $e=(u,v)$, $e \in E$, we have at least one, $u \in D$ or $v \in D$. But this also means that the corresponding $B_i$ is also hit, as our corresponding hitting set must either have $u$ or $v$, Thus $D$ is also a hitting set. Now, suppose we have a hitting set of size $k$ or less, $H$. Then for every edge, $e$, $e$ has at least one edge in the hitting set $H$ because $H$ contains one of the nodes in the edge. Thus $H$ is a vertex cover. Thus, $Vertex Cover \leq _p Hitting Set$, and the Hitting Set problem is NP-Complete
+
+
+\end{document}
